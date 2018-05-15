@@ -9,7 +9,7 @@
 
 
 # Install required packages
-for packages in [ "apache2","curl","php-curl", "php-gd", "php-mbstring", "php-mcrypt", "php-xml", "php-xmlrpc", "mysql-client"] do
+for packages in [ "apache2","curl","php-curl", "php-gd", "php-mbstring", "php-mcrypt", "php-xml", "php-xmlrpc", "mysql-client", "libapache2-mod-php", "php7.0-mysql"] do
   package packages do
     action :install
   end
@@ -63,13 +63,8 @@ bash 'generate-config' do
   code <<-EOH
     echo "<?php \n">> wp-config.php
     cat /var/www/html/wordpress/secret-key   >> wp-config.php
-    cat /tmp/main.yml >>wp-config.php
-    echo  "
-    //$table_prefix  = 'wp_';
-    define('WP_DEBUG', false);
-    if ( !defined('ABSPATH') )
-        define('ABSPATH', dirname(__FILE__) . '/');
-    require_once(ABSPATH . 'wp-settings.php');" >> wp-config.php
+    cat /tmp/main.yml >> wp-config.php
+    cat /home/ubuntu/cloudformation/wordpress/ender >> wp-config.php  
   EOH
  not_if { File.exists?("/var/www/html/wordpress/wp-config.php") }
 end
