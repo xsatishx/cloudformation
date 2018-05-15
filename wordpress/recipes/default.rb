@@ -32,7 +32,7 @@ bash 'copy-wordpress-www' do
   user 'root'
   cwd '/tmp'
   code <<-EOH
-    cp -a wordpress/. /var/www/html
+    cp -a wordpress/. /var/www/html/wordpress
   EOH
 end
 
@@ -40,7 +40,7 @@ end
 bash 'chown-wordpress' do
   user 'root'
   code <<-EOH
-    chown -R ubuntu:www-data /var/www/html
+    chown -R ubuntu:www-data /var/www/html/wordpress
   
   EOH
 end
