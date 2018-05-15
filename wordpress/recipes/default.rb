@@ -57,20 +57,31 @@ bash 'get-secret-key' do
 end
 
 # generate wp-config.php
-bash 'get-secret-key' do
+bash 'generate-config' do
   user 'root'
   cwd '/var/www/html/wordpress'
   code <<-EOH
     echo "<?php \n">> wp-config.php
     cat /var/www/html/wordpress/secret-key  /tmp/main.yml >> wp-config.php
     echo  "
-    $table_prefix  = 'wp_';
+    //$table_prefix  = 'wp_';
     define('WP_DEBUG', false);
     if ( !defined('ABSPATH') )
         define('ABSPATH', dirname(__FILE__) . '/');
     require_once(ABSPATH . 'wp-settings.php');" >> wp-config.php
   EOH
  not_if { File.exists?("/var/www/html/wordpress/wp-config.php") }
+end
+
+# set perms
+bash 'set perm' do
+  user 'root'
+  cwd '/var/www/html/wordpress'
+  code <<-EOH
+    chown -R www-data:www-data /var/www/html/wordpress/
+    chmod -R 755 /var/www/html/wordpress/
+
+  EOH
 end
 
 service "apache2" do
