@@ -61,7 +61,14 @@ bash 'get-secret-key' do
   user 'root'
   cwd '/var/www/html/wordpress'
   code <<-EOH
-    cat /var/www/html/wordpress/secret-key  /tmp/main.yml> wp-config.php
+    echo "<?php \n">> wp-config.php
+    cat /var/www/html/wordpress/secret-key  /tmp/main.yml >> wp-config.php
+    echo  "
+    $table_prefix  = 'wp_';
+    define('WP_DEBUG', false);
+    if ( !defined('ABSPATH') )
+        define('ABSPATH', dirname(__FILE__) . '/');
+    require_once(ABSPATH . 'wp-settings.php');" >> wp-config.php
   EOH
  not_if { File.exists?("/var/www/html/wordpress/wp-config.php") }
 end
@@ -69,3 +76,7 @@ end
 service "apache2" do
   action :restart
 end
+
+
+
+#GRANT ALL ON wordpress.* TO 'wpuser'@'localhost' IDENTIFIED BY 'wppassword';
