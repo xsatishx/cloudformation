@@ -62,7 +62,8 @@ bash 'generate-config' do
   cwd '/var/www/html/wordpress'
   code <<-EOH
     echo "<?php \n">> wp-config.php
-    cat /var/www/html/wordpress/secret-key  /tmp/main.yml >> wp-config.php
+    cat /var/www/html/wordpress/secret-key   >> wp-config.php
+    cat /tmp/main.yml >>wp-config.php
     echo  "
     //$table_prefix  = 'wp_';
     define('WP_DEBUG', false);
