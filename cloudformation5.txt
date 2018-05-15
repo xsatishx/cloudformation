@@ -122,13 +122,17 @@
               [
                 "#!/bin/bash\n",
                 "apt-get update\n",
+				"apt-get install git\n",
                 "curl -L https://www.opscode.com/chef/install.sh | bash\n",
 				"wget http://github.com/opscode/chef-repo/tarball/master -O /home/ubuntu/master\n",
 				"cd /home/ubuntu && tar -xvf /home/ubuntu/master\n",
 				"mv /home/ubuntu/chef-* /home/ubuntu/chef-repo\n",
+				"cd /home/ubuntu && git clone https://github.com/xsatishx/cloudformation.git\n",
 				"echo 'define(\"'DB_NAME'\",\"", {"Ref": "DBName" },"\");'  >> /tmp/main.yml\n",
                 "echo 'define(\"'DB_USER'\",\"", {"Ref": "DBUser" },"\");'  >> /tmp/main.yml\n",
-                "echo 'define(\"'DB_PASSWORD'\",\"", {"Ref": "DBPassword" },"\");'  >> /tmp/main.yml\n"
+                "echo 'define(\"'DB_PASSWORD'\",\"", {"Ref": "DBPassword" },"\");'  >> /tmp/main.yml\n",
+				"echo 'define(\"'DB_HOST'\",\"", {"Fn::GetAtt" : ["DBInstance", "Endpoint.Address"]},"\");' >> /tmp/main.yml\n",
+				"cd /home/ubuntu/cloudformation && chef-solo -c solo.rb -j web.json\n"
 			  ]
             ]
           }
@@ -157,13 +161,17 @@
               [
                 "#!/bin/bash\n",
                 "apt-get update\n",
+				"apt-get install git\n",
                 "curl -L https://www.opscode.com/chef/install.sh | bash\n",
 				"wget http://github.com/opscode/chef-repo/tarball/master -O /home/ubuntu/master\n",
 				"cd /home/ubuntu && tar -xvf /home/ubuntu/master\n",
 				"mv /home/ubuntu/chef-* /home/ubuntu/chef-repo\n",
-			    "echo 'define(\"'DB_NAME'\",\"", {"Ref": "DBName" },"\");'  >> /tmp/main.yml\n",
+				"cd /home/ubuntu && git clone https://github.com/xsatishx/cloudformation.git\n",
+				"echo 'define(\"'DB_NAME'\",\"", {"Ref": "DBName" },"\");'  >> /tmp/main.yml\n",
                 "echo 'define(\"'DB_USER'\",\"", {"Ref": "DBUser" },"\");'  >> /tmp/main.yml\n",
-                "echo 'define(\"'DB_PASSWORD'\",\"", {"Ref": "DBPassword" },"\");'  >> /tmp/main.yml\n"
+                "echo 'define(\"'DB_PASSWORD'\",\"", {"Ref": "DBPassword" },"\");'  >> /tmp/main.yml\n",
+				"echo 'define(\"'DB_HOST'\",\"", {"Fn::GetAtt" : ["DBInstance", "Endpoint.Address"]},"\");' >> /tmp/main.yml\n",
+				"cd /home/ubuntu/cloudformation && chef-solo -c solo.rb -j web.json\n"
               ]
             ]
           }
