@@ -32,8 +32,8 @@ package "mysql-server" do
   response_file 'mysql-seed'
 end
 
-template '/etc/mysql/conf.d/mysqld_new.cnf' do
-  source 'mysqld_new.cnf.erb'
+template '/etc/mysql/mysql.conf.d/mysqld.cnf' do
+  source 'mysqld.cnf.erb'
   owner 'root'
   group 'root'
   mode '0644'
