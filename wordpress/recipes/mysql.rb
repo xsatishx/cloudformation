@@ -10,7 +10,7 @@
 
 
 
-ackage 'python-pymysql' do
+package 'python-pymysql' do
   action :install
   action :upgrade
 end
@@ -27,19 +27,19 @@ cookbook_file 'mysql-seed' do
   mode '0644'
 end
 
-package "mysql-server-5.5" do
+package "mysql-server" do
   action :install
   response_file 'mysql-seed'
 end
 
 template '/etc/mysql/conf.d/mysqld_new.cnf' do
-  source 'mysqld_openstack.cnf.erb'
+  source 'mysqld_new.cnf.erb'
   owner 'root'
   group 'root'
   mode '0644'
 end
 
-template '/root/scripts/createdb.sh' do
+template '/tmp/createdb.sh' do
   source 'createdb.sh.erb'
   owner 'root'
   group 'root'
@@ -48,7 +48,7 @@ end
 
 bash 'Create-all-database' do
   user 'root'
-  cwd '/root/scripts'
+  cwd '/tmp'
   code <<-EOH
     sh createdb.sh
   EOH
