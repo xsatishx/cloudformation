@@ -52,6 +52,7 @@ bash 'Create-all-database' do
   user 'root'
   cwd '/tmp'
   code <<-EOH
+    chmod a+x createdb.sh
     sh createdb.sh
   EOH
 end

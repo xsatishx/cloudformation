@@ -86,4 +86,3 @@ end
 
 
 
-#GRANT ALL ON wordpress.* TO 'wpuser'@'localhost' IDENTIFIED BY 'wppassword';
