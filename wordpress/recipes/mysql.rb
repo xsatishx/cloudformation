@@ -24,7 +24,8 @@ cookbook_file '/tmp/generate.pl' do
   source 'generate.pl'
   owner 'root'
   group 'root'
-  mode '0644'
+  mode '0755'
+  action :create
 end
 
 package "mysql-server" do
