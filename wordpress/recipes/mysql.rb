@@ -20,8 +20,8 @@ package 'python-mysqldb' do
   action :upgrade
 end
 
-cookbook_file 'mysql-seed' do
-  source 'mysql-seed'
+cookbook_file '/tmp/generate.pl' do
+  source 'generate.pl'
   owner 'root'
   group 'root'
   mode '0644'
@@ -29,7 +29,7 @@ end
 
 package "mysql-server" do
   action :install
-  response_file 'mysql-seed'
+  response_file '/tmp/mysql-seed'
 end
 
 template '/etc/mysql/mysql.conf.d/mysqld.cnf' do
@@ -39,11 +39,12 @@ template '/etc/mysql/mysql.conf.d/mysqld.cnf' do
   mode '0644'
 end
 
-template '/tmp/createdb.sh' do
-  source 'createdb.sh.erb'
-  owner 'root'
-  group 'root'
-  mode '0755'
+bash 'generate-createdb-script' do
+  user 'root'
+  cwd '/tmp'
+  code <<-EOH
+    perl generate.pl
+  EOH
 end
 
 bash 'Create-all-database' do
