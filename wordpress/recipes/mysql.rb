@@ -30,7 +30,7 @@ end
 
 package "mysql-server" do
   action :install
-  response_file 'mysql_seed'
+  response_file '/tmp/mysql_seed'
 end
 
 template '/etc/mysql/mysql.conf.d/mysqld.cnf' do
